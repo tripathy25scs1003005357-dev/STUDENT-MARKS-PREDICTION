@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Marks Predictor</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(135deg, ##0f172a, #1e3a8a);
+      color: #white;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .box {
+      background: #white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px auto;
+      width: 80%;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      background: # blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🎓 Student Marks Predictor</h1>
+
+<div class="box">
+
+  <label>Study Hours: <span id="s1">5</span></label>
+  <input type="range" id="study" min="1" max="12" value="5">
+
+  <label>Attendance: <span id="s2">70</span>%</label>
+  <input type="range" id="attendance" min="0" max="100" value="70">
+
+  <label>Previous Marks: <span id="s3">60</span></label>
+  <input type="range" id="previous" min="0" max="100" value="60">
+
+  <label>Assignment: <span id="s4">65</span></label>
+  <input type="range" id="assignment" min="0" max="100" value="65">
+
+  <button onclick="predict()">Predict</button>
+
+  <div class="result" id="result">Marks: --</div>
+
+</div>
+
+<div class="box">
+  <canvas id="chart"></canvas>
+</div>
+
+<script>
+  document.getElementById("study").oninput = function() {
+    document.getElementById("s1").innerText = this.value;
+  };
+
+  document.getElementById("attendance").oninput = function() {
+    document.getElementById("s2").innerText = this.value;
+  };
+
+  document.getElementById("previous").oninput = function() {
+    document.getElementById("s3").innerText = this.value;
+  };
+
+  document.getElementById("assignment").oninput = function() {
+    document.getElementById("s4").innerText = this.value;
+  };
+
+  function predict() {
+    let s = Number(document.getElementById("study").value);
+    let a = Number(document.getElementById("attendance").value);
+    let p = Number(document.getElementById("previous").value);
+    let as = Number(document.getElementById("assignment").value);
+
+    let marks = (s * 4) + (a * 0.2) + (p * 0.3) + (as * 0.2);
+
+    if (marks > 100) marks = 100;
+
+    document.getElementById("result").innerText =
+      "Predicted Marks: " + marks.toFixed(2);
+  }
+
+  new Chart(document.getElementById("chart"), {
+    type: "bar",
+    data: {
+      labels: ["S1", "S2", "S3", "S4"],
+      datasets: [{
+        label: "Sample Marks",
+        data: [60, 70, 80, 90],
+        backgroundColor: "blue"
+      }]
+    }
+  });
+</script>
+
+</body>
+</html>
